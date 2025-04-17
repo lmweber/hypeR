@@ -134,7 +134,7 @@ msigdb_info <- function() {
 #' @importFrom dplyr select
 #' @importFrom msigdbr msigdbr
 #' @export
-msigdb_download <- function(species, db_species, collection=" ", subcollection=" ") {
+msigdb_download <- function(species, db_species, collection=NULL, subcollection=NULL) {
     
     # Check species
     msigdb_check_species(species)
@@ -166,9 +166,9 @@ msigdb_download <- function(species, db_species, collection=" ", subcollection="
 #' HALLMARK <- msigdb_gsets("Homo sapiens", "HS", "H")
 #'
 #' @export
-msigdb_gsets <- function(species, db_species, collection=" ", subcollection=" ", clean=FALSE) {
+msigdb_gsets <- function(species, db_species, collection=NULL, subcollection=NULL, clean=FALSE) {
     genesets <- msigdb_download(species, db_species, collection, subcollection)
-    name <- ifelse(subcollection == "", collection, paste(collection, subcollection, sep="."))
+    name <- ifelse(subcollection == NULL, collection, paste(collection, subcollection, sep="."))
     version <- msigdb_version()
     gsets$new(genesets, name=name, version=version, clean=clean)
 }
