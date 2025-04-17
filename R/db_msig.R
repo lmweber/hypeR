@@ -134,18 +134,18 @@ msigdb_info <- function() {
 #' @importFrom dplyr select
 #' @importFrom msigdbr msigdbr
 #' @export
-msigdb_download <- function(species, category, subcategory="") {
+msigdb_download <- function(species, db_species, category, subcategory="") {
     
     # Check species
     msigdb_check_species(species)
     
-    response <- msigdbr(species, category, subcategory)
+    response <- msigdbr(species, db_species, category, subcategory)
     if (nrow(response) == 0) {
         stop("No data found: Please review available species and genesets\n", msigdb_info())
     }
     
     # Download genesets
-    mdf <- msigdbr(species, category, subcategory) %>%
+    mdf <- msigdbr(species, db_species, category, subcategory) %>%
         dplyr::select(gs_name, gene_symbol) %>%
         dplyr::distinct()
     
