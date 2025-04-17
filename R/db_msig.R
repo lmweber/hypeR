@@ -166,8 +166,8 @@ msigdb_download <- function(species, category, subcategory="") {
 #' HALLMARK <- msigdb_gsets("Homo sapiens", "H", "")
 #'
 #' @export
-msigdb_gsets <- function(species, category, subcategory="", clean=FALSE) {
-    genesets <- msigdb_download(species, category, subcategory)
+msigdb_gsets <- function(species, db_species, category, subcategory="", clean=FALSE) {
+    genesets <- msigdb_download(species, db_species, category, subcategory)
     name <- ifelse(subcategory == "", category, paste(category, subcategory, sep="."))
     version <- msigdb_version()
     gsets$new(genesets, name=name, version=version, clean=clean)
