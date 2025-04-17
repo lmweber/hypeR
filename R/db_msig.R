@@ -168,7 +168,7 @@ msigdb_download <- function(species, db_species, collection=NULL, subcollection=
 #' @export
 msigdb_gsets <- function(species, db_species, collection=NULL, subcollection=NULL, clean=FALSE) {
     genesets <- msigdb_download(species, db_species, collection, subcollection)
-    name <- ifelse(subcollection == NULL, collection, paste(collection, subcollection, sep="."))
+    name <- ifelse(is.null(subcollection), collection, paste(collection, subcollection, sep="."))
     version <- msigdb_version()
     gsets$new(genesets, name=name, version=version, clean=clean)
 }
