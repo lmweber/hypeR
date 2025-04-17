@@ -134,18 +134,18 @@ msigdb_info <- function() {
 #' @importFrom dplyr select
 #' @importFrom msigdbr msigdbr
 #' @export
-msigdb_download <- function(species, db_species, category, subcategory="") {
+msigdb_download <- function(species, db_species, collection=" ", subcollection=" ") {
     
     # Check species
     msigdb_check_species(species)
     
-    response <- msigdbr(species, db_species, category, subcategory)
+    response <- msigdbr(species, db_species, collection, subcollection)
     if (nrow(response) == 0) {
         stop("No data found: Please review available species and genesets\n", msigdb_info())
     }
     
     # Download genesets
-    mdf <- msigdbr(species, db_species, category, subcategory) %>%
+    mdf <- msigdbr(species, db_species, collection, subcollection) %>%
         dplyr::select(gs_name, gene_symbol) %>%
         dplyr::distinct()
     
@@ -163,12 +163,12 @@ msigdb_download <- function(species, db_species, category, subcategory="") {
 #' @return A gsets object
 #'
 #' @examples
-#' HALLMARK <- msigdb_gsets("Homo sapiens", "H", "")
+#' HALLMARK <- msigdb_gsets("Homo sapiens", "HS", "H")
 #'
 #' @export
-msigdb_gsets <- function(species, db_species, category, subcategory="", clean=FALSE) {
-    genesets <- msigdb_download(species, db_species, category, subcategory)
-    name <- ifelse(subcategory == "", category, paste(category, subcategory, sep="."))
+msigdb_gsets <- function(species, db_species, collection=" ", subcollection=" ", clean=FALSE) {
+    genesets <- msigdb_download(species, db_species, collection, subcollection)
+    name <- ifelse(subcollection == "", collection, paste(collection, subcollection, sep="."))
     version <- msigdb_version()
     gsets$new(genesets, name=name, version=version, clean=clean)
 }
